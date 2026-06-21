@@ -41,7 +41,53 @@ class ModelTrainer:
                 
                 
             }
-            model_report:dict=evaluate_models(x_train=X_train,y_train=y_train,x_test=X_test,y_test=y_test,models=models)
+            params={
+                    "Decision tree": 
+                    {
+                        "criterion": ["squared_error", "friedman_mse"],
+                        "splitter": ["best", "random"],
+                        "max_depth": [None, 5, 10, 20]
+                    },
+
+                    "random forest": {
+                        "n_estimators": [8, 16, 32, 64, 128, 256],
+                        "max_depth": [None, 5, 10, 20]
+        },
+
+                "linera regression": {
+                        "fit_intercept": [True, False]
+        },
+
+                "catboost regression": {
+                        "iterations": [100, 200],
+                        "learning_rate": [0.01, 0.05, 0.1],
+                        "depth": [4, 6, 8]
+        },
+
+                "addaboost regressor": {
+                        "n_estimators": [50, 100, 200],
+                        "learning_rate": [0.01, 0.1, 1.0]
+        },
+
+                "Xg boost regressor": {
+            "n_estimators": [50, 100, 200],
+            "learning_rate": [0.01, 0.05, 0.1],
+            "max_depth": [3, 5, 7]
+        },
+
+        "K-neighbour regressor": {
+            "n_neighbors": [3, 5, 7, 9],
+            "weights": ["uniform", "distance"],
+            "algorithm": ["auto", "ball_tree", "kd_tree", "brute"]
+        },
+
+        "gradient boost regressor": {
+            "n_estimators": [50, 100, 200],
+            "learning_rate": [0.01, 0.05, 0.1],
+            "max_depth": [3, 5, 7]
+        }
+    }
+            model_report:dict=evaluate_models(x_train=X_train,y_train=y_train,x_test=X_test,y_test=y_test,models=models,param=params)
             # to get best model score from dict
             best_model_score=max(sorted(model_report.values()))
             ## to get best model from dict
